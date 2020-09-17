@@ -1,0 +1,19 @@
+{
+  "name": "consumerX",
+  "version": "1.0.0",
+  "description": "A simple javascript consumer built with Rxjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "Kyle Mo",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "rxjs": "^6.6.3"
+  }
+}
