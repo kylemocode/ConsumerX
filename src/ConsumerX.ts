@@ -5,7 +5,7 @@ import { IQueueEntity } from './types';
 
 /**
    * @param retryCount the retry count for the task if it fail
-   * @param intervalTime the interval delay between each two tasks
+   * @param intervalTime the interval delay between each two tasks (ms)
    */
 
 export default class ConsumerX<Result> {
