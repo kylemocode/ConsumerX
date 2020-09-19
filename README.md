@@ -95,9 +95,11 @@ $ yarn test
 
 ## Parameters
 
-| Param        | Type      | Description | 
-| retryCount    | `number`  | The retry count when job encounter failure. (Default Value = 0) |
-| intervalTime    | `number`  | The interval delay between each two tasks. (Default Value = 200ms)|
+| Param        | Type     | Description                                                        |   |   |
+|--------------|----------|--------------------------------------------------------------------|---|---|
+| retryCount   | `number` | The retry count when job encounter failure. (Default Value = 0)    |   |   |
+| intervalTime | `number` | The interval delay between each two tasks. (Default Value = 200ms) |   |   |
+|              |          |                                                                    |   |   |
 
 ## QueueEntity
 ```typescript
