@@ -11,7 +11,6 @@ import { IQueueEntity } from './types';
 export default class ConsumerX<Result> {
   private queue: IQueueEntity<Result>[] = [];
   private timer$?: Subscription;
-  private subscriptionList?: Subscription[] = [];
   private retryCount: number;
   private intervalTime: number;
   public counter = 0;
@@ -40,7 +39,7 @@ export default class ConsumerX<Result> {
 
     this.counter += 1;
 
-    const subscription = defer(entity.task)
+    defer(entity.task)
       .pipe(
         retry(this.retryCount)
       )
@@ -57,13 +56,9 @@ export default class ConsumerX<Result> {
           if (this.isIdle && this.queue.length === 0) {
             this.timer$?.unsubscribe();
             this.timer$ = undefined;
-            this.subscriptionList?.forEach(sub => sub.unsubscribe());
-            this.subscriptionList = undefined;
           }
         }
       })
-
-      this.subscriptionList?.push(subscription);
   };
 
   public push = (entity: IQueueEntity<Result>) => {
