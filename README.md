@@ -8,6 +8,7 @@ An asynchronous jobs (Promise | Async Function) consumer based on RxJS, which ha
 
 ## Install
 
+[consumer-x](https://www.npmjs.com/package/consumer-x)
 ```shell
 $ yarn add consumer-x
 ```
