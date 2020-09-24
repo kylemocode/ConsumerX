@@ -1,6 +1,7 @@
 import { defer, interval, Subscription } from 'rxjs';
 import { retry } from 'rxjs/operators';
 
+import PriorityQueue from './PriorityQueue';
 import { IQueueEntity } from './types';
 
 /**
@@ -8,8 +9,8 @@ import { IQueueEntity } from './types';
    * @param intervalTime the interval delay between each two tasks (ms)
    */
 
-export default class ConsumerX<Result> {
-  private queue: IQueueEntity<Result>[] = [];
+export default class ConsumerX {
+  private queue: PriorityQueue;
   private timer$?: Subscription;
   private retryCount: number;
   private intervalTime: number;
@@ -18,9 +19,10 @@ export default class ConsumerX<Result> {
   public constructor(retryCount = 0, intervalTime = 200) {
     this.retryCount = retryCount;
     this.intervalTime = intervalTime;
+    this.queue = new PriorityQueue();
   }
 
-  public size = this.queue?.length ?? 0;
+  public size = this.queue?.size ?? 0;
 
   get isIdle(): boolean {
     return this.counter === 0;
@@ -29,12 +31,13 @@ export default class ConsumerX<Result> {
   private runInterval = () => {
     return interval(this.intervalTime)
       .subscribe(_x => {
-        const task = this.queue.shift();
-        this.execute(task);
+        const task = this.queue.pop();
+        if (task) this.execute(task);
+        else return;
       })
   }
 
-  private execute = (entity?: IQueueEntity<Result>) => {
+  private execute = (entity?: IQueueEntity<unknown>) => {
     if (typeof entity === 'undefined') return;
 
     this.counter += 1;
@@ -53,7 +56,7 @@ export default class ConsumerX<Result> {
           this.counter -= 1;
         },
         complete: () => {
-          if (this.isIdle && this.queue.length === 0) {
+          if (this.isIdle && this.queue.size() === 0) {
             this.timer$?.unsubscribe();
             this.timer$ = undefined;
           }
@@ -61,8 +64,8 @@ export default class ConsumerX<Result> {
       })
   };
 
-  public push = (entity: IQueueEntity<Result>) => {
-    this.queue.push(entity);
+  public push = (entity: IQueueEntity<unknown>, priority: number) => {
+    this.queue.push(entity, priority);
 
     if (typeof this.timer$ === 'undefined') {
       this.timer$ = this.runInterval();
