@@ -1,5 +1,5 @@
-export interface IQueueEntity<Result> {
-  task: () => Promise<Result>;
-  success?: (res: Result) => void;
+export interface IQueueEntity<T> {
+  task: () => Promise<T>;
+  success?: (res: T) => void;
   failure?: (err: unknown) => void;
 }

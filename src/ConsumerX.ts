@@ -9,8 +9,8 @@ import { IQueueEntity } from './types';
    * @param intervalTime the interval delay between each two tasks (ms)
    */
 
-export default class ConsumerX {
-  private queue: PriorityQueue;
+export default class ConsumerX<Result> {
+  private queue: PriorityQueue<Result>;
   private timer$?: Subscription;
   private retryCount: number;
   private intervalTime: number;
@@ -19,7 +19,7 @@ export default class ConsumerX {
   public constructor(retryCount = 0, intervalTime = 200) {
     this.retryCount = retryCount;
     this.intervalTime = intervalTime;
-    this.queue = new PriorityQueue();
+    this.queue = new PriorityQueue<Result>();
   }
 
   public size = this.queue?.size ?? 0;
@@ -37,7 +37,7 @@ export default class ConsumerX {
       })
   }
 
-  private execute = (entity?: IQueueEntity<unknown>) => {
+  private execute = (entity?: IQueueEntity<Result>) => {
     if (typeof entity === 'undefined') return;
 
     this.counter += 1;
@@ -64,7 +64,7 @@ export default class ConsumerX {
       })
   };
 
-  public push = (entity: IQueueEntity<unknown>, priority?: number) => {
+  public push = (entity: IQueueEntity<Result>, priority?: number) => {
     this.queue.push(entity, priority ?? 5);
 
     if (typeof this.timer$ === 'undefined') {

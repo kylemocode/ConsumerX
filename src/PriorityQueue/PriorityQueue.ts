@@ -1,8 +1,8 @@
 import { IQueueEntity } from '../types';
 import { Node, IPriorityQueue } from './types';
 
-export default class PriorityQueue implements IPriorityQueue<unknown> {
-  private heap: Node<unknown>[] = [];
+export default class PriorityQueue<T> implements IPriorityQueue<T> {
+  private heap: Node<T>[] = [];
 
   _parent(index: number) {
     return Math.floor((index - 1) / 2);
@@ -38,7 +38,7 @@ export default class PriorityQueue implements IPriorityQueue<unknown> {
     return this.heap.length;
   }
 
-  public push(entity: IQueueEntity<unknown>, priority: number) {
+  public push(entity: IQueueEntity<T>, priority: number) {
     this.heap.push({ entity, priority })
 
       let i = this.heap.length - 1;

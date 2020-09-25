@@ -7,7 +7,7 @@ export interface Node<T> {
 
 export interface IPriorityQueue<T> {
   push(entity: IQueueEntity<T>, priority: number): void;
-  pop(): T;
+  pop(): IQueueEntity<T> | undefined | null;
   size(): number;
   isEmpty(): boolean;
 }
