@@ -1,4 +1,4 @@
-import ConsumerX from './index';
+import ConsumerX from '../index';
 
 test('Consumer should be idle when created', () => {
   const consumer = new ConsumerX();

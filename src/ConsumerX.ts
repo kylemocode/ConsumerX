@@ -64,8 +64,8 @@ export default class ConsumerX {
       })
   };
 
-  public push = (entity: IQueueEntity<unknown>, priority: number) => {
-    this.queue.push(entity, priority);
+  public push = (entity: IQueueEntity<unknown>, priority?: number) => {
+    this.queue.push(entity, priority ?? 5);
 
     if (typeof this.timer$ === 'undefined') {
       this.timer$ = this.runInterval();
