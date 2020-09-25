@@ -112,7 +112,7 @@ ConsumerX implement a heap based priority queue, which has a better performance 
 
 | Method         | Big O    |
 |----------------|----------|
-| insert | push  | O(log n) |
+| push           | O(log n) |
 | size           | O(1)     |
 | isEmpty        | O(1)     |
 | peek           | O(1)     |
@@ -133,6 +133,8 @@ consumer.push({
 }, 2);
 ```
 The lower number has a higher priority than the bigger number, the default priority is 5.
+
+If the tasks have same priorities, it will be implemented with pattern of last in first out (LIFO)
 
 ## QueueEntity
 ```typescript
