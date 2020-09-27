@@ -107,16 +107,15 @@ $ yarn test
 | intervalTime | `number` | The interval delay between each two tasks. (Default Value = 200ms) |
 |              |          |                                                                    |
 
-## Heap Based Priority Queue
-ConsumerX implement a heap based priority queue, which has a better performance while popping the element (O(O(log n)) than linear data structure (O(n)). 
+## Priority Queue
+ConsumerX implement a linear data structure priority queue instead of heap based priority to make sure the order of tasks with same priority.(It's relatively difficult to achieve this in heap-based priority queue.)
 
 | Method         | Big O    |
 |----------------|----------|
-| push           | O(log n) |
+| push           | O(1)     |
 | size           | O(1)     |
 | isEmpty        | O(1)     |
-| peek           | O(1)     |
-| pop            | O(log n) |
+| pop            | O(n)     |
 
 ## Priority
 You can specify priority of each task while pushing the task
@@ -134,7 +133,7 @@ consumer.push({
 ```
 The lower number has a higher priority than the bigger number, the default priority is 5.
 
-If the tasks have same priorities, it will be implemented with pattern of last in first out (LIFO)
+If the tasks have same priorities, it will be implemented with pattern of First In First Out (FIFO).
 
 ## QueueEntity
 ```typescript
