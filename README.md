@@ -32,6 +32,7 @@ const testPromiseResolve = () => {
 }
 
 const testPromiseReject = () => {
+  console.log('called!');
   return new Promise((_resolve, reject) => {
     reject('reject from promise');
   })
@@ -50,7 +51,7 @@ const testAsync = async() => {
 consumer.push({
   task: testPromiseResolve,
   success: (res) => {
-    console.log('Success ', res);
+    console.log('Success~~ ', res);
   },
   failure: (err) => {
     console.log('Failure ', err);
@@ -70,25 +71,39 @@ consumer.push({
 consumer.push({
   task: testAsync,
   success: (res) => {
-    console.log('Success ', res);
+    console.log('Success!! ', res);
   },
   failure: (err) => {
     console.log('Failure ', err);
   }
-}) // If you don't specify the priority, the default value will be 5.  
+}) // If you don't specify the priority, the default value will be 5. 
+
+consumer.push({
+  task: testAsync,
+  success: (res) => {
+    console.log('Success$$ ', res);
+  },
+  failure: (err) => {
+    console.log('Failure ', err);
+  }
+})
 
 /*
 The console will log:
 
+called!
+called!
+called!
 Failure  reject from promise
-Failure  reject from promise
-Failure  reject from promise
-(Because the testPromiseReject's priority is highest, so it run first, and because we set the retryCount to 2 when we created the instance, so it will retry two time.)
+(Because the testPromiseReject's priority is highest, so it run first, and because we set the retryCount to 2 when we created the instance, so it will retry two time (the initial call + 2 retry count, so totally 3 times.) If the last retry also fail, it will call the failure callback.)
 
-Success  resolve from promise
+Success~~  resolve from promise
 
-Success  resolve from promise?No, is from async
+Success!!  resolve from promise?No, is from async
 (Default priority is 5, which is the lowest in this case.)
+
+Success$$  resolve from promise?No, is from async
+(If tasks have same priority, it will work like normal queue (FIFO).)
 */
 
 ```
