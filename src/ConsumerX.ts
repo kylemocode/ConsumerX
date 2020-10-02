@@ -5,12 +5,12 @@ import PriorityQueue from './PriorityQueue';
 import { IQueueEntity } from './types';
 
 /**
-   * @param retryCount the retry count for the task if it fail
-   * @param intervalTime the interval delay between each two tasks (ms)
-   */
+ * @param retryCount the retry count for the task if it fail
+ * @param intervalTime the interval delay between each two tasks (ms)
+ */
 
 export default class ConsumerX<Result> {
-  private queue: PriorityQueue<Result>;
+  public queue: PriorityQueue<Result>;
   private timer$?: Subscription;
   private retryCount: number;
   private intervalTime: number;
@@ -22,20 +22,21 @@ export default class ConsumerX<Result> {
     this.queue = new PriorityQueue<Result>();
   }
 
-  public size = this.queue?.size ?? 0;
+  get size(): number {
+    return this.queue?.size() ?? 0;
+  }
 
   get isIdle(): boolean {
     return this.counter === 0;
   }
 
   private runInterval = () => {
-    return interval(this.intervalTime)
-      .subscribe(_x => {
-        const task = this.queue.pop();
-        if (task) this.execute(task);
-        else return;
-      })
-  }
+    return interval(this.intervalTime).subscribe(() => {
+      const task = this.queue.pop();
+      if (task) this.execute(task);
+      else return;
+    });
+  };
 
   private execute = (entity?: IQueueEntity<Result>) => {
     if (typeof entity === 'undefined') return;
@@ -43,15 +44,13 @@ export default class ConsumerX<Result> {
     this.counter += 1;
 
     defer(entity.task)
-      .pipe(
-        retry(this.retryCount)
-      )
+      .pipe(retry(this.retryCount))
       .subscribe({
-        next: (value: any) => {
+        next: (value: Result) => {
           entity?.success?.(value);
           this.counter -= 1;
         },
-        error: (err: any) => {
+        error: (err: unknown) => {
           entity?.failure?.(err);
           this.counter -= 1;
         },
@@ -60,11 +59,11 @@ export default class ConsumerX<Result> {
             this.timer$?.unsubscribe();
             this.timer$ = undefined;
           }
-        }
-      })
+        },
+      });
   };
 
-  public push = (entity: IQueueEntity<Result>, priority?: number) => {
+  public push = (entity: IQueueEntity<Result>, priority?: number): void => {
     this.queue.push(entity, priority ?? 5);
 
     if (typeof this.timer$ === 'undefined') {

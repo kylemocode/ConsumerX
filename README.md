@@ -1,5 +1,5 @@
 # ConsumerX
-An asynchronous jobs (Promise | Async Function) consumer which can deal with priority based on RxJS, having error-handling and retry mechanism and can specify callback on success and failure.
+An asynchronous jobs (Promise | Async Function) consumer which can deal with priority based on RxJS, having error-handling and retry mechanism and can specify callback on success and failure. Can be used in browser and node environment.
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fkylemocode%2FConsumerX.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fkylemocode%2FConsumerX?ref=badge_shield)
 [![Weekly Downloads](https://img.shields.io/npm/dw/consumer-x)](https://img.shields.io/npm/dw/consumer-x)
@@ -150,6 +150,9 @@ The lower number has a higher priority than the bigger number, the default prior
 
 If the tasks have same priorities, it will be implemented with pattern of First In First Out (FIFO).
 
+## Defer
+Use RxJS defer to achieve lazy execution.
+
 ## QueueEntity
 ```typescript
 interface IQueueEntity<Result> {
@@ -162,11 +165,11 @@ currently accept promise and async function as job, will probably support other 
 
 ## Roadmap
   - [X] Implement priority queue
+  - [X] Setup lint-stage
+  - [X] Add Prettier
   - [ ] Increase unit test and maintain high testing coverage
-  - [ ] Setup lint-stage and CI/CD pipeline
+  - [ ] CI/CD pipeline
   - [ ] Take advantage of more RxJS features
-  - [ ] Support pushing synchronous job
-  - [ ] Add Prettier
 
 ## License
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fkylemocode%2FConsumerX.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fkylemocode%2FConsumerX?ref=badge_large)
