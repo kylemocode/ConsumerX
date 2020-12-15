@@ -133,7 +133,7 @@ ConsumerX implement a linear data structure priority queue instead of heap based
 | pop            | O(n)     |
 
 ## Priority
-You can specify priority of each task while pushing the task
+You can specify priority of each task while pushing the task
 
 ```typescript
 consumer.push({
