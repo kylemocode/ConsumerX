@@ -2,7 +2,7 @@
 An asynchronous jobs (Promise | Async Function) consumer which can deal with priority based on RxJS, having error-handling and retry mechanism and can specify callback on success and failure. Can be used in browser and node environment.
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fkylemocode%2FConsumerX.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fkylemocode%2FConsumerX?ref=badge_shield)
-[![Weekly Downloads](https://img.shields.io/npm/dw/consumer-x)](https://img.shields.io/npm/dw/consumer-x)
+![Download](https://img.shields.io/npm/dt/consumer-x)
 
 # Quick Start
 
